@@ -1,0 +1,39 @@
+# Site settings
+## Change the values as needed.
+title: Ex.joe
+email: zhangyaphet@gmail.com
+description: "A jekyll theme implementing material design by using muicss."
+keywords: "jekyll, theme, material, muicss"
+#url: "http://bitwiser.in/bitwiser-material" # the base hostname & protocol for your site
+url: "https://mondyspring.github.io" # the base hostname & protocol for your site
+baseurl: "" # the subpath of your site, e.g. /blog/
+paginate: 5
+paginate_path: "page:num"
+# Build settings
+markdown: kramdown
+highlighter: pygments
+permalink: /:year/:month/:day/:title.html
+gems: ['jekyll-paginate']
+sass:
+  sass_dir: _sass
+  style: :compressed
+links:
+  facebook: false
+  twitter: false
+  email: zhangyaphet@gmail.com
+  github: moonyaph
+
+exclude:
+  - bower_components
+  - README.md
+full_name: Brijesh
+
+
+
+##set this to enable disqus commenting
+disqus: bitwiser
+
+##set this to enable google analytics
+#ga_id: analyticsID
+#ga_domain: bitwiser.in
+

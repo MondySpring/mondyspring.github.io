@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Webpack! - Ex.joe</title>
+  <meta name="description" content="  webpack的认识">
+  
+  <link href="//fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,700" rel="stylesheet" type="text/css" />
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" href="https://github.com/MoonYaph/blog/blog/css/main.css">
+  <link rel="canonical" href="https://github.com/MoonYaph/blog/blog/webpack/2016/08/20/learn-webpack.html">
+  <link rel="alternate" type="application/rss+xml" title="Ex.joe" href="https://github.com/MoonYaph/blog/blog/feed.xml" />
+  <script src="https://github.com/MoonYaph/blog/blog/js/mui.min.js"></script>
+  <style>
+      body {
+        font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
+      }
+  </style>
+
+  <meta property="og:title" content="Webpack! - Ex.joe" />
+  <meta name="twitter:title" content="Webpack! - Ex.joe" />
+  
+  <meta name="keywords" content="jekyll, theme, material, muicss" />
+  
+  <meta property="og:description" content="  webpack的认识" />
+  <meta name="twitter:description" content="  webpack的认识" />
+  
+  <meta property="og:type" content="article" />
+  
+  <meta property="og:site_name" content="Ex.joe" />
+  
+  <meta property="og:image" content="/http://s3-ap-southeast-1.amazonaws.com/monster-machine/images/horssghonr-1436272011-Midas.jpg" />
+  <meta property="twitter:image" content="/http://s3-ap-southeast-1.amazonaws.com/monster-machine/images/horssghonr-1436272011-Midas.jpg" />
+  
+  <meta name="twitter:card" content="summary" />
+</head>
+
+
+  <body style="padding: 0">
+
+  <article class="post-full">
+    <header class="bg-holder post-page bg-deep-purple" style="background:url(http://s3-ap-southeast-1.amazonaws.com/monster-machine/images/horssghonr-1436272011-Midas.jpg) no-repeat center center; background-size: cover">
+      <a href="https://github.com/MoonYaph/blog/" class="overlay"><i class="fa fa-home fa-2x"></i></a>
+      <div class="img-overlay"></div>
+    </header>
+    <div class="mui-container mui-panel post-content">
+      <h1 class="article-title"><a href="/webpack/2016/08/20/learn-webpack.html">Webpack!</a></h1>
+      <p class="post-meta">by <a href="https://github.com/MoonYaph/blog">Brijesh</a> on <time datetime="2016-08-20T21:50"><i class="fa fa-calendar"></i>August 20, 2016</time>
+      <span class="sharer">
+        Share on: 
+        <a class="sh-fb" href="#" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+window.location.href,'_blank','height=300,width=600');return false;"><i class="fa fa-facebook fa-lg"></i></a>
+        
+            <a class="sh-twt" href="#" target="_blank" onclick="window.open('https://twitter.com/share?url='+window.location.href,'_blank','height=300,width=600');return false;"><i class="fa fa-twitter fa-lg"></i></a>
+        
+        </span>
+      </p>
+      
+      <div class="post-html">
+          <ol>
+  <li>
+    <p>webpack的认识</p>
+
+    <blockquote>
+      <p>webpack是一个模块打包工具,可以把各种文件(React、babel、less、sass等)等模块进行编译打包</p>
+    </blockquote>
+  </li>
+  <li>webpack的安装
+    <blockquote>
+      <p>webpack首先在全局环境下进行安装。</p>
+    </blockquote>
+
+    <p><code>npm install webpack -g</code></p>
+
+    <blockquote>
+      <p>或者在常规项目目录下把webpack以来加入到package.json</p>
+    </blockquote>
+
+    <p><code>npm init</code> <code>npm install webpack --save-dev</code></p>
+  </li>
+  <li>
+    <p>项目创建
+ 安装好之后创建一个learn-webpack的项目进入该文件夹,项目结构如下:</p>
+
+    <pre><code> learn-webpack
+ | - dist
+ | - src
+     | - index.js
+     | - index.html
+     | - style.css
+     | - demo.png(任意一张图片)
+ | - package.json
+ | - webpack.congfig.js
+</code></pre>
+
+    <p>首先看<code>index.html</code>代码</p>
+
+    <pre><code> &lt;!doctype html&gt;
+ &lt;html lang ="en"&gt;
+ &lt;head&gt;
+     &lt;meta charset="utf-8"&gt;
+     &lt;title&gt;demo&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+     &lt;div&gt;hello,world&lt;/div&gt;
+     &lt;img src="./demo.png&gt;
+     &lt;script src="../dist/bundle.js"&gt;&lt;/script&gt;
+ &lt;/body&gt;
+ &lt;/html&gt;
+</code></pre>
+
+    <p>再看<code>style.css</code></p>
+
+    <pre><code> body{background:#333;}
+</code></pre>
+
+    <p>此时打开<code>index.html</code>,会看到<img src="./image/demo.png" alt="image" /></p>
+
+    <p>因此,需要对<code>webpack.config.js</code>进行配置</p>
+
+    <pre><code> //webpack.config.js
+ var path = require('path');
+ var webpack = require('webpack');
+    
+ module.exports = {
+     entry: './src/index',
+     output: {
+         path: path.join(__dirname,'dist'),
+         filename: 'bundle.js'
+     },
+     plugins: [
+         new webpack.optimize.UglifyJsPlugin({//压缩代码
+             compressor: {
+                 warnings: false
+             }
+         )}
+     ],
+     module: {
+         loaders: [{
+             test: /\.css$/,
+             loader: 'style!css'
+         },
+         {
+             test:/\.(png|jpg)$/,
+             loader: [
+                 'file?hash=sha512&amp;digest=hex&amp;name=[hash].[ext]',
+                 'image-webpack?bypassOnDebug&amp;optimizationLevel=7&amp;interlaced=false'
+             ]
+         }]
+     }
+ }
+</code></pre>
+
+    <blockquote>
+      <p>以上”__dirname”是node.js中的一个全局变量,只想当前执行脚本所在的目录</p>
+    </blockquote>
+
+    <blockquote>
+      <p>关于loaders,webpack通过外部脚本或工具可以对各种格式的文件进行处理,使用时需要对module进行配置</p>
+    </blockquote>
+
+    <pre><code>   1. test:一个匹配loaders需哦处理文件的扩张名的正则表达式
+   2. loader: loader名称
+   3. include/exclude: 手动添加必须处理的文件或疲敝不需要处理的文件
+   4. query: 为loader提供额外的设置选项
+</code></pre>
+
+    <blockquote>
+      <p>使用之前需要安装必备的模块</p>
+    </blockquote>
+
+    <pre><code> `npm install style-loader css-loader image-webpack-loader webpack --save-dev`
+</code></pre>
+
+    <blockquote>
+      <p>使用插件需要npm安装,weback提供一部分插件,然后在webpack配置中的plugins关键在部分添加插件的一个实例
+ 外部插件需要在webpack.config.js中引入</p>
+    </blockquote>
+
+    <pre><code> var HtmlWebpackPlugin = require('html-webpack-plugin')
+</code></pre>
+
+    <p>最后在index.js中添加 <code>require('./style.css')</code> <code>require('./demo.png')</code></p>
+
+    <p>运行<code>webpack</code>,打开浏览器,就可以看到效果</p>
+  </li>
+  <li>
+    <p>关于webpack</p>
+
+    <blockquote>
+      <p>webpack有同步和异步加载方式
+ 加载器loader可以整合资源到Js文件中,形成一个模块,而且支持CommonJs和AMD规范,并且可以自定义webpack的配置</p>
+    </blockquote>
+
+    <blockquote>
+
+    </blockquote>
+  </li>
+</ol>
+
+      </div>
+    
+    <footer>
+      <p><a href="#" id="showComments"><i class="fa fa-comment-o"></i>Comments</a></p>
+      <div id="disqus_thread"></div>
+    </footer>
+    
+    </div>
+  </article>
+
+  
+  <script src="/js/script.js"></script>
+  
+
+
+
+  <footer class="site-footer">
+
+    <div class="footer-col-wrapper">
+      <h3>&copy; Ex.joe</h3>
+      <p>Powered by <a href="//jekyllrb.com">Jekyll</a> using <a href="//bitwiser.in/bitwiser-material/">Bitwiser-material</a> theme.</p>
+    </div>
+
+</footer>
+
+  
+</body>
+</html>
